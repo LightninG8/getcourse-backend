@@ -3,7 +3,9 @@ export const TYPES = {
   ILogger: Symbol.for('ILogger'),
   IExceptionFilter: Symbol.for('IExceptionFilter'),
   IConfigService: Symbol.for('IConfigService'),
-  ISchedulerService: Symbol.for('ISchedulerService'),
   IGetcourseScheduler: Symbol.for('IGetcourseScheduler'),
-  IDatabaseService: Symbol.for('IDatabaseService')
+  IDatabaseService: Symbol.for('IDatabaseService'),
+  IGetcourseAPI: Symbol.for('IGetcourseAPI'),
+  IUserService: Symbol.for('IUserService'),
+  IUsersController: Symbol.for('IUsersController')
 }

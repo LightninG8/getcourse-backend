@@ -8,7 +8,7 @@ import { IControllerRoute } from './route.interface';
 export abstract class BaseController {
   private readonly _router: Router;
 
-  constructor(private logger: ILogger) {
+  constructor(private LoggerService: ILogger) {
     this._router = Router();
   }
 
@@ -32,7 +32,7 @@ export abstract class BaseController {
 
   protected bindRoutes(routes: IControllerRoute[]) {
     for(const route of routes) {
-      this.logger.log(`[${route.method.toUpperCase()}] ${route.path}`);
+      this.LoggerService.log(`[${route.method.toUpperCase()}] ${route.path}`);
 
       const middleware = route.middlewares?.map((m) => m.execute.bind(m));
       const handler = route.func.bind(this);

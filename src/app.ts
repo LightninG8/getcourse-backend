@@ -9,6 +9,8 @@ import { ILogger } from './logger';
 import { IExceptionFilter } from './errors';
 import { GetcourseScheduler } from './schedulers';
 import { DatabaseService } from './database';
+import { IUsersController } from 'common';
+
 
 
 @injectable()
@@ -19,6 +21,8 @@ export class App {
 
   constructor(
     @inject(TYPES.ILogger) private logger: ILogger,
+
+    @inject(TYPES.IUsersController) private usersController: IUsersController,
 
     @inject(TYPES.IExceptionFilter) private exceptionFilter: IExceptionFilter,
 
@@ -32,7 +36,7 @@ export class App {
   }
 
   useRoutes() {
-
+    this.app.use('/api/v1', this.usersController.router);
   }
 
   useSchedulers() {
@@ -42,6 +46,7 @@ export class App {
   useMiddleware() {
     this.app.use(json());
     this.app.use(cors());
+    this.app.use(express.static('public'))
   }
 
   useExceptionFilters() {
@@ -54,13 +59,13 @@ export class App {
 
 
   public async init() {
+    await this.useDatabase();
+
     this.useMiddleware();
     this.useRoutes()
     this.useExceptionFilters();
     this.useSchedulers();
     
-    await this.useDatabase()
-  
     this.server = await this.app.listen(this.port, () => {
       this.logger.log(`[App] Сервер запущен на  https://localhost:${this.port}`)
     })

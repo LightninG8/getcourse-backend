@@ -4,8 +4,10 @@ import { TYPES } from "./types";
 import { ILogger, LoggerService } from "./logger";
 import { ConfigService, IConfigService } from "./config";
 import { ExceptionFilter, IExceptionFilter } from "./errors";
-import { GetcourseScheduler, IGetcourseScheduler, ISchedulerService, SchedulerService } from "./schedulers";
-import { DatabaseService, IDatabaseService } from "./database";
+import { GetcourseScheduler, IGetcourseScheduler } from "./schedulers";
+import { DatabaseService, IDatabaseService, IUserService, UserService } from "./database";
+import { GetcourseAPI, IGetcourseAPI } from "./api";
+import { IUsersController, UsersController } from "./common";
 
 export interface IBootstrapReturn {
   appContainer: Container;
@@ -17,9 +19,12 @@ export const appBindings = new ContainerModule((bind: interfaces.Bind) => {
   bind<App>(TYPES.Application).to(App).inSingletonScope();
   bind<IConfigService>(TYPES.IConfigService).to(ConfigService).inSingletonScope();
   bind<IExceptionFilter>(TYPES.IExceptionFilter).to(ExceptionFilter).inSingletonScope();
-  bind<ISchedulerService>(TYPES.ISchedulerService).to(SchedulerService).inSingletonScope();
   bind<IGetcourseScheduler>(TYPES.IGetcourseScheduler).to(GetcourseScheduler).inSingletonScope();
   bind<IDatabaseService>(TYPES.IDatabaseService).to(DatabaseService).inSingletonScope();
+  bind<IGetcourseAPI>(TYPES.IGetcourseAPI).to(GetcourseAPI).inSingletonScope();
+  bind<IUserService>(TYPES.IUserService).to(UserService).inSingletonScope();
+  bind<IUsersController>(TYPES.IUsersController).to(UsersController)
+
 })
 
 

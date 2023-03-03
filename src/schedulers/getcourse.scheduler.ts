@@ -1,44 +1,48 @@
 import { inject, injectable } from "inversify";
 import { ILogger } from "../logger";
 import { TYPES } from "../types";
-import { ISchedulerService } from "./base.scheduler.interface";
-import { SchedulerService } from "./base.scheduler";
-import { IConfigService } from "config";
+import { IGetcourseAPI } from "../api";
 import axios from "axios";
+import { getFormattedUsers } from "../utils";
+import { IUserService } from "../database";
+import { scheduleJob } from "node-schedule";
 
-export interface IGetcourseScheduler extends ISchedulerService {
-  key: string;
+
+export interface IGetcourseScheduler {
   updateUsersDatabase: () => void;
 }
 
 @injectable()
-export class GetcourseScheduler extends SchedulerService implements IGetcourseScheduler{
-  key: string;
+export class GetcourseScheduler implements IGetcourseScheduler{
+  name = 'Export from GetCourse';
+  // cronDelay = '0 5 * * *';
+  cronDelay = '0 * * * *';
+
 
   constructor(
     @inject(TYPES.ILogger) private logger: ILogger,
-    @inject(TYPES.IConfigService) private configService: IConfigService) {
-    super(logger);
-
-    this.key = this.configService.get('GETCOURSE_KEY')
-
-    this.bindSchedulers([
-      {
-        name: 'Export from GetCourse',
-        delay: 1 * 1000,
-        func: () => this.updateUsersDatabase(),
-      }
-    ])
+    @inject(TYPES.IGetcourseAPI) private getcourseAPI: IGetcourseAPI,
+    @inject(TYPES.IUserService) private userService: IUserService) {
 
   }
 
-  updateUsersDatabase() {
-    axios.get(`https://monstersreels.online/pl/api/account/users?key=${this.key}&status=active`).then((data) => {
-      console.log(data.data);
-    })
+  async updateUsersDatabase() {
+    // fake API
+    await axios.get('http://localhost:8080/export.json').then((response) => {
+      const users = getFormattedUsers(response.data.info);
+
+      this.logger.log(users);
+
+      this.userService.importUsers(users);
+    });
+    
     this.logger.log('[Scheduler] Users Database was updated');
   }
 
+  start() {
+    scheduleJob(this.cronDelay, () => this.updateUsersDatabase());
+
+    this.logger.log(`[Scheduler] Планировщик ${this.name} запущен c частотой ${this.cronDelay}`)
+  }
 }
 
-16429685
