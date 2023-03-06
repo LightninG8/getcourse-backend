@@ -44,17 +44,14 @@ export const getFormattedField = (field: string, fieldValue: string | number) =>
     "utm_group": 'utm_group'
   };
 
-  // const numberFieldValues = ["getcourse_id", "club_score", "club_experience"];
-  const numberFieldValues = [''];
+  const fieldName = fieldNames[field] || field;
 
-
-  const value = numberFieldValues.includes(field) ? +fieldValue : fieldValue;
   const isAddfield = !fieldNames[field];
 
 
   const result: IResult = {
-    fieldName: field,
-    fieldValue: value,
+    fieldName: fieldName,
+    fieldValue: fieldValue,
     isAddfield: isAddfield
   }
 

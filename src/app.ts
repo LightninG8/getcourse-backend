@@ -26,7 +26,7 @@ export class App {
 
     @inject(TYPES.IExceptionFilter) private exceptionFilter: IExceptionFilter,
 
-    @inject(TYPES.IGetcourseScheduler) private getcourseService: GetcourseScheduler,
+    @inject(TYPES.IGetcourseScheduler) private getcourseScheduler: GetcourseScheduler,
     @inject(TYPES.IDatabaseService) private databaseService: DatabaseService
 
 
@@ -40,7 +40,7 @@ export class App {
   }
 
   useSchedulers() {
-    this.getcourseService.start();
+    this.getcourseScheduler.start();
   }
 
   useMiddleware() {

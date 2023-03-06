@@ -6,7 +6,7 @@ type UserAddfields = {
 }
 
 export interface IUser {
-  getcourse_id: number;
+  getcourse_id: string;
   email: string;
   registration_type: string;
   created_ad: string;

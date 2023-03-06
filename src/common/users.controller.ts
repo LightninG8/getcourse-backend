@@ -27,9 +27,9 @@ export class UsersController extends BaseController implements IUsersController 
         middlewares: [new ValidateMiddleware(UserGetDto)]
       },
       {
-        path: '/inc-user-score',
+        path: '/add-user-score',
         method: 'post',
-        func: this.incUserScore,
+        func: this.addUserScore,
         middlewares: [new ValidateMiddleware(IncUserScoreDto)]
       },
     ])
@@ -52,9 +52,9 @@ export class UsersController extends BaseController implements IUsersController 
     }
   };
 
-  async incUserScore(req: Request, res: Response, next: NextFunction) {
+  async addUserScore(req: Request, res: Response, next: NextFunction) {
     try {
-      const result = await this.userService.incUserScore(req.body);
+      const result = await this.userService.addUserScore(req.body);
 
       if (!result) {
         return this.send(res, 401, {

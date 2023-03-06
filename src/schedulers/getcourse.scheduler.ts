@@ -40,7 +40,8 @@ export class GetcourseScheduler implements IGetcourseScheduler{
   }
 
   start() {
-    scheduleJob(this.cronDelay, () => this.updateUsersDatabase());
+    // scheduleJob(this.cronDelay, () => this.updateUsersDatabase());
+    this.updateUsersDatabase();
 
     this.logger.log(`[Scheduler] Планировщик ${this.name} запущен c частотой ${this.cronDelay}`)
   }

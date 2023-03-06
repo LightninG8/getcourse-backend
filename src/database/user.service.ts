@@ -30,8 +30,7 @@ export class UserService implements IUserService {
 
   async getUserByGetcourseId(query: UserGetDto) {
     try {
-      const result = await UserModel.find(query)
-      console.log(result);
+      const result = await UserModel.findOne({'getcourse_id': '242756552'})
 
       return result;
     } catch (e) {
@@ -39,7 +38,7 @@ export class UserService implements IUserService {
     }
   }
 
-  async incUserScore(body: IncUserScoreDto) {
+  async addUserScore(body: IncUserScoreDto) {
     try {
       return await UserModel.updateOne({getcourse_id: body.getcourse_id}, { $inc: { "addfields.club_score": body.score, "addfields.club_experience": body.score } });
     } catch (e) {
