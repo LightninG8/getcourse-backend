@@ -30,7 +30,7 @@ export class UserService implements IUserService {
 
   async getUserByGetcourseId(query: UserGetDto) {
     try {
-      const result = await UserModel.findOne({'getcourse_id': '242756552'})
+      const result = await UserModel.findOne(query)
 
       return result;
     } catch (e) {
