@@ -40,7 +40,7 @@ export class App {
   }
 
   useSchedulers() {
-    this.getcourseScheduler.start();
+    // this.getcourseScheduler.start();
   }
 
   useMiddleware() {

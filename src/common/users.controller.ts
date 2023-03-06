@@ -40,14 +40,22 @@ export class UsersController extends BaseController implements IUsersController 
       
       if (!result) {
         return this.send(res, 401, {
-          message: `Пользователь ${req.query.getcourse_id} не зарегистрирован`
+          success: false,
+          message: `Пользователь ${req.query.getcourse_id} не зарегистрирован`,
+          data: {}
         })
       }
 
-      this.ok(res, result)
+      this.ok(res, {
+        success: true,
+        message: `Данные пользователя ${req.query.getcourse_id} получены`,
+        data: result
+      })
     } catch (e) {
       return this.send(res, 500, {
-        message: `Ошибка сервера. Повтроите запрос позднее. ${e}`
+        success: false,
+        message: `Ошибка сервера. Повтроите запрос позднее. ${e}`,
+        data: {}
       })
     }
   };
@@ -58,14 +66,22 @@ export class UsersController extends BaseController implements IUsersController 
 
       if (!result) {
         return this.send(res, 401, {
-          message: `Ошибка запроса. Проверьте корректность введённых данных`
+          success: false,
+          message: `Ошибка запроса. Проверьте корректность введённых данных`,
+          data: {}
         })
       }
 
-      this.ok(res, result);
+      this.ok(res, {
+        success: true,
+        message: `Баллы добавлены пользователю ${req.body.getcourse_id}`,
+        data: result
+      });
     } catch(e) {
       return this.send(res, 500, {
-        message: `Ошибка сервера. Повтроите запрос позднее. ${e}`
+        success: false,
+        message: `Ошибка сервера. Повтроите запрос позднее. ${e}`,
+        data: {}
       })
     }
     
